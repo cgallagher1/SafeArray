@@ -1,5 +1,6 @@
 //SmartArrays - Practice TODO template
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 struct SmartArray
@@ -35,13 +36,19 @@ void SmartArray::print()
 SmartArray::SmartArray(int size)
 {
 	//Treat negative sizes as though size = 0.
-	//Insure that the capacity is never less than 8.
-	//Allocated sufficient memory and initialize the used portion to 0's.
+	if (size < 0 || size < 8)
+	{
+		used = 0;
+		capacity = 8;
+		head = new int[8];
+	}
+	else
+	{
+		used = 0;
+		capacity = size;
+		head = new int[size];
+	}
 
-	//TODO: Replace this code which only handles size = 0.
-	used = 0;
-	capacity = 8;
-	head = new int[8];
 }
 SmartArray::~SmartArray()
 {
