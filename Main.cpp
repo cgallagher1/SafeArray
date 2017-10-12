@@ -56,7 +56,7 @@ SmartArray::~SmartArray()
 {
 	delete[] head; 
 }
-
+//Resizes the array
 void SmartArray::resize(int new_cap)
 {
 	//If the new capacity is already the capacity or below zero
@@ -80,6 +80,7 @@ void SmartArray::resize(int new_cap)
 	//Makes head array equal to the new array
 	head = p;
 }
+//Gets specified index
 int SmartArray::get(int index)
 {
 	if(index < 0 || index >= used)
@@ -91,53 +92,69 @@ int SmartArray::get(int index)
 		return head[index];
 	}
 }
+//Sets value at specified index
 void SmartArray::set(int index, int val)
 {
 	if(0 <= index && index < used)
 	{
-		//TOTO: what goes here?
+		head[index] = val;
 	}
 }
+//Adds one to the end of the array
 void SmartArray::push(int val)
 {
-	//TODO: don't do any resizing here. Call resize() to resize to double the current capacity.
-	//Then place the new element at the end. Is the variable "used" right when you are done?
+	if(used == capacity)
+	{
+		resize(2 * capacity);	//Double the capacity while resizing
+	}
+	head[used] = val;
+	used++;
 }
+//Takes one off the used list
 void SmartArray::pop()
 {
-	//TODO: This one is simply a change to "use". You don't need to "erase" any values.
-	//What happens if an empty SmartArray is popped?
+	if(used > 0)
+	{
+		used--;
+	}
 }
+//Inserts value at a specific index
 void SmartArray::insert(int index, int val)
 {
 	if(index < 0 || index >= used)
-		return;
-	if(used == capacity)
-		resize(2 * capacity);	//Double the capacity while resizing
-	else
 	{
-		//TODO: The for loop to transfer the data is tricky.
-		//I suggest that you strt from the right and slide data to the left.
-
+		return;
+	}
+	if(used == capacity)
+	{
+		resize(2 * capacity);
+	}
+	else 
+	{
+		for(int i = used; i > index; i--)
+		{
+			head[i] = head[i-1];
+		}
 	}
 	head[index] = val;
 	used++;
 }
+//Removes specific index from the array
 void SmartArray::remove(int index)
 {
 	if(index < 0 || index >= used)
+	{
 		return;
-	//TODO: write the for loop to transfer the data.
-	//You don't actually erase anything; you just shift it.
-
-
-
+	}
+	for(int i = index; i < used; i++)
+	{
+		head[i] = head[i+1];
+	}
 	used--;
 }
 
 int main()
 {
-	//Things may not work properly until you do the TODO's above.
 	SmartArray a(4);
 	for(int i = 0; i < a.used; i++)
 		a.set(i, i);				//[0 1 2 3] used = 4 capacity = 8
