@@ -35,7 +35,7 @@ void SmartArray::print()
 }
 SmartArray::SmartArray(int size)
 {
-	//Treat negative sizes as though size = 0 
+	//Treat negative sizes as though size = 0, min capacity of 8
 	if (size < 0 || size < 8)
 	{
 		used = 0;
@@ -50,27 +50,46 @@ SmartArray::SmartArray(int size)
 	}
 
 }
+
+//Deconstructor
 SmartArray::~SmartArray()
 {
-	//TODO: Call delete[] to prevent memory leaks
+	delete[] head; 
 }
+
 void SmartArray::resize(int new_cap)
 {
-	//TODO: Uncomment the code and finish the statements
-	//if(new_cap < 0 || new_cap == capacity)	//Nothing to do
-	//	???;
-	//capacity = max(...			//Never fewer than 8
-	//int *p = new...
-	//used = min(...		//Keep as much as we can
-	//for(int i = 0; i < used; i++)
-	//	p[i] = ???
-	//delete[] ???;
-	//head = ???;
+	//If the new capacity is already the capacity or below zero
+	if(new_cap < 0 || new_cap == capacity)
+	{
+		return;
+	}
+	//Finds the new capacity
+	capacity = max(8, new_cap);
+	//Creates an integer pointer array with the new capacity
+	int *p = new int[capacity];
+	//Finds how bog used is
+	used = min(used, new_cap);
+	//Puts old values in new array
+	for(int i = 0; i < used; i++)
+	{
+		p[i] = head[i];
+	}
+	//Deletes old array
+	delete[] head;
+	//Makes head array equal to the new array
+	head = p;
 }
 int SmartArray::get(int index)
 {
-	//TODO: replace the following code. Don't forget to check for valid index.
-	return 0;
+	if(index < 0 || index >= used)
+	{
+		return INT_MIN;			//Must return something
+	}
+	else
+	{
+		return head[index];
+	}
 }
 void SmartArray::set(int index, int val)
 {
