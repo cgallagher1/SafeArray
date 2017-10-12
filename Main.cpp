@@ -35,12 +35,12 @@ void SmartArray::print()
 }
 SmartArray::SmartArray(int size)
 {
-	//Treat negative sizes as though size = 0.
+	//Treat negative sizes as though size = 0 
 	if (size < 0 || size < 8)
 	{
 		used = 0;
 		capacity = 8;
-		head = new int[8];
+		head = new int[capacity];
 	}
 	else
 	{
